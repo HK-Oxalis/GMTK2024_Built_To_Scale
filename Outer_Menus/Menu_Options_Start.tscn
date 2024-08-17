@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://crp8p7kqrgtv4"]
+
+[ext_resource type="PackedScene" uid="uid://dk8eqc6k751nr" path="res://Outer_Menus/Menu_Options.tscn" id="1_depgd"]
+
+[node name="Options_Menu" instance=ExtResource("1_depgd")]
+
+[node name="Main_Menu_Button" parent="MarginContainer/MarginContainer" index="0"]
+visible = true
+
+[node name="Back_Button" parent="MarginContainer/MarginContainer" index="1"]
+visible = false

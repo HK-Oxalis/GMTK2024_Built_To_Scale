@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://t6ahoys6qjr6"]
+
+[ext_resource type="Script" path="res://Outer_Menus/Audio_Slider/Audio_Slider.cs" id="1_uykck"]
+[ext_resource type="Script" path="res://Outer_Menus/Audio_Slider/Audio_Settings_Item.cs" id="1_yii1g"]
+[ext_resource type="AudioStream" uid="uid://b7kpqq0vwbgi2" path="res://Outer_Menus/Audio_Slider/Bip.wav" id="2_d8h8d"]
+
+[node name="Audio_Settings_Item" type="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+size_flags_horizontal = 8
+script = ExtResource("1_yii1g")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Audio"
+
+[node name="HSlider" type="HSlider" parent="." node_paths=PackedStringArray("sample_Player")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+script = ExtResource("1_uykck")
+sample_Player = NodePath("../AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_d8h8d")

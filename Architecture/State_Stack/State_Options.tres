@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://di68xy42pqvn2"]
+
+[ext_resource type="PackedScene" uid="uid://dk8eqc6k751nr" path="res://Outer_Menus/Menu_Options.tscn" id="1_jxuk1"]
+[ext_resource type="Script" path="res://Architecture/State_Stack/State_Menu.cs" id="2_2f0cw"]
+
+[resource]
+script = ExtResource("2_2f0cw")
+pause_Scene = ExtResource("1_jxuk1")

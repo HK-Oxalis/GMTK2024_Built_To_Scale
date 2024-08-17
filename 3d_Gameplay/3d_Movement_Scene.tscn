@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://dcqw15j65pp7i"]
+
+[ext_resource type="PackedScene" uid="uid://cla4mxbkt04cu" path="res://3d_Gameplay/Player/player_3d.tscn" id="1_p2wac"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_etv5q"]
+sky_top_color = Color(0.613949, 0.298478, 0.660857, 1)
+sky_horizon_color = Color(0.676605, 0.621822, 0.723349, 1)
+ground_bottom_color = Color(0.0924727, 0.188811, 0.23254, 1)
+ground_horizon_color = Color(0.676605, 0.621822, 0.723349, 1)
+
+[sub_resource type="Sky" id="Sky_7vbbk"]
+sky_material = SubResource("ProceduralSkyMaterial_etv5q")
+
+[sub_resource type="Environment" id="Environment_ngvkf"]
+background_mode = 2
+sky = SubResource("Sky_7vbbk")
+tonemap_mode = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qnyqc"]
+size = Vector2(10, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p8e63"]
+size = Vector3(10, 0.1, 10)
+
+[node name="3d_Scene" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.15948, 0.473884, 0, 0.947768, 0.318959, -0.5, 0.276227, -0.820791, 0, 0, 0)
+light_color = Color(1, 0.679167, 0.45, 1)
+light_energy = 1.6
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ngvkf")
+
+[node name="Player_3D" parent="." instance=ExtResource("1_p2wac")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.361151, 0.22904, 0.63817)
+
+[node name="Camera3D" type="Camera3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 0.928135, 0.372243, 0, -0.372243, 0.928135, 0, 3.63999, 5.71528)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_qnyqc")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_p8e63")

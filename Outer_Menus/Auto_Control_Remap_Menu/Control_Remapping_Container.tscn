@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://8fp68n5qj3mb"]
+
+[ext_resource type="Script" path="res://Outer_Menus/Auto_Control_Remap_Menu/Control_Remapping.cs" id="1_67ck3"]
+[ext_resource type="PackedScene" uid="uid://dmsev0h1q044n" path="res://Outer_Menus/Auto_Control_Remap_Menu/Remap_Button.tscn" id="2_pdd7a"]
+
+[node name="Control_Remapping_Container" type="ScrollContainer"]
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+script = ExtResource("1_67ck3")
+button_Scene = ExtResource("2_pdd7a")

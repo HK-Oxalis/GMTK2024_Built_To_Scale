@@ -1,0 +1,103 @@
+[gd_scene load_steps=8 format=3 uid="uid://db7psxe6npxrq"]
+
+[ext_resource type="Theme" uid="uid://k1sueamrrmgi" path="res://Theme/Standard.tres" id="1_it7yq"]
+[ext_resource type="LabelSettings" uid="uid://c7uxdnuyf07jc" path="res://Theme/Label_Settings_Title.tres" id="2_8s3t2"]
+[ext_resource type="StyleBox" uid="uid://du2m0h02i01eq" path="res://Theme/Menu_Bg.tres" id="2_qn6ol"]
+[ext_resource type="Script" path="res://Outer_Menus/Change_Scene_Button.cs" id="3_d5v7d"]
+[ext_resource type="Script" path="res://Outer_Menus/Add_State_Button.cs" id="4_0rktc"]
+[ext_resource type="Resource" uid="uid://bh0su4pebwhj4" path="res://Architecture/State_Stack/State_Playing_3d.tres" id="5_b4kwt"]
+[ext_resource type="Script" path="res://Outer_Menus/Quit_Button.cs" id="7_acxw4"]
+
+[node name="Main_Menu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_it7yq")
+theme_override_styles/panel = ExtResource("2_qn6ol")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Title"
+label_settings = ExtResource("2_8s3t2")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 20
+
+[node name="Play_Button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Play"
+script = ExtResource("3_d5v7d")
+destination_Scene_Path = "res://3d_Gameplay/3d_Movement_Scene.tscn"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/Play_Button"]
+visible = false
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("4_0rktc")
+state = ExtResource("5_b4kwt")
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 80
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Options_Button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Options"
+script = ExtResource("3_d5v7d")
+destination_Scene_Path = "res://Outer_Menus/Menu_Options_Start.tscn"
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Quit_Button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Quit
+"
+script = ExtResource("7_acxw4")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/Play_Button" to="MarginContainer/VBoxContainer/MarginContainer/Play_Button/Button" method="_pressed"]

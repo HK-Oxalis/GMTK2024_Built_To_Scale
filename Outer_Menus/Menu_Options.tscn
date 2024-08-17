@@ -1,0 +1,157 @@
+[gd_scene load_steps=10 format=3 uid="uid://dk8eqc6k751nr"]
+
+[ext_resource type="Theme" uid="uid://k1sueamrrmgi" path="res://Theme/Standard.tres" id="1_mv0oq"]
+[ext_resource type="StyleBox" uid="uid://du2m0h02i01eq" path="res://Theme/Menu_Bg.tres" id="2_tal17"]
+[ext_resource type="LabelSettings" uid="uid://c7uxdnuyf07jc" path="res://Theme/Label_Settings_Title.tres" id="2_wpun8"]
+[ext_resource type="PackedScene" uid="uid://8fp68n5qj3mb" path="res://Outer_Menus/Auto_Control_Remap_Menu/Control_Remapping_Container.tscn" id="3_n27o3"]
+[ext_resource type="Script" path="res://Outer_Menus/Change_Scene_Button.cs" id="4_mn8li"]
+[ext_resource type="PackedScene" uid="uid://t6ahoys6qjr6" path="res://Outer_Menus/Audio_Slider/Audio_Settings_Item.tscn" id="5_8uhim"]
+[ext_resource type="Script" path="res://Outer_Menus/Fullscreen_Button/Fullscreen_Box.cs" id="5_wc10i"]
+[ext_resource type="Script" path="res://Outer_Menus/Remove_State_Button.cs" id="7_g1wb2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mejr2"]
+font_size = 30
+
+[node name="Options_Menu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_mv0oq")
+theme_override_styles/panel = ExtResource("2_tal17")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
+layout_mode = 2
+current_tab = 1
+
+[node name="Input" type="MarginContainer" parent="MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Input"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Input/VBoxContainer"]
+layout_mode = 2
+text = "Input"
+label_settings = ExtResource("2_wpun8")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/TabContainer/Input/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Control_Remapping_Container" parent="MarginContainer/TabContainer/Input/VBoxContainer" instance=ExtResource("3_n27o3")]
+layout_mode = 2
+
+[node name="Video" type="MarginContainer" parent="MarginContainer/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Video"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Video/VBoxContainer"]
+layout_mode = 2
+text = "Video"
+label_settings = ExtResource("2_wpun8")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/TabContainer/Video/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/TabContainer/Video/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Video/VBoxContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Video/VBoxContainer/CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Fullscreen"
+label_settings = SubResource("LabelSettings_mejr2")
+horizontal_alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Video/VBoxContainer/CenterContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("5_wc10i")
+
+[node name="Audio" type="MarginContainer" parent="MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+text = "Audio"
+label_settings = ExtResource("2_wpun8")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Audio/VBoxContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="Audio_Settings_Item" parent="MarginContainer/TabContainer/Audio/VBoxContainer/CenterContainer/VBoxContainer" instance=ExtResource("5_8uhim")]
+layout_mode = 2
+
+[node name="Audio_Settings_Item2" parent="MarginContainer/TabContainer/Audio/VBoxContainer/CenterContainer/VBoxContainer" instance=ExtResource("5_8uhim")]
+layout_mode = 2
+bus_Name = "SFX"
+
+[node name="Audio_Settings_Item3" parent="MarginContainer/TabContainer/Audio/VBoxContainer/CenterContainer/VBoxContainer" instance=ExtResource("5_8uhim")]
+layout_mode = 2
+bus_Name = "Background"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Main_Menu_Button" type="Button" parent="MarginContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Back
+"
+script = ExtResource("4_mn8li")
+destination_Scene_Path = "res://Outer_Menus/Main_Menu.tscn"
+
+[node name="Back_Button" type="Button" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Back
+"
+script = ExtResource("7_g1wb2")
