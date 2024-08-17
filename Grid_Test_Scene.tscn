@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bd1nic0olwg6y"]
+[gd_scene load_steps=4 format=3 uid="uid://bd1nic0olwg6y"]
 
 [ext_resource type="PackedScene" uid="uid://dc66koicpcy6r" path="res://Grid_Gameplay/Grid_Unit.tscn" id="1_gmcjs"]
+[ext_resource type="PackedScene" uid="uid://b3wpegsxyi4v1" path="res://Grid_Gameplay/Grid_Cursor.tscn" id="2_agam6"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0xsjh"]
 
@@ -14,3 +15,6 @@ texture = SubResource("PlaceholderTexture2D_0xsjh")
 
 [node name="Grid_Unit" parent="." instance=ExtResource("1_gmcjs")]
 position = Vector2(80, 80)
+
+[node name="Cursor" parent="." instance=ExtResource("2_agam6")]
+position = Vector2(400, 240)
