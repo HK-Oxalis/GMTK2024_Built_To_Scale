@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3wpegsxyi4v1"]
+
+[ext_resource type="Script" path="res://Grid_Cursor.cs" id="1_24oji"]
+[ext_resource type="Resource" uid="uid://b4embxmr3mbkn" path="res://Grid_Gameplay/Grid.tres" id="2_e2pol"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_07gye"]
+size = Vector2(40, 40)
+
+[node name="Cursor" type="Node2D"]
+script = ExtResource("1_24oji")
+grid = ExtResource("2_e2pol")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.902688, 0.872037, 0.887928, 1)
+texture = SubResource("PlaceholderTexture2D_07gye")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

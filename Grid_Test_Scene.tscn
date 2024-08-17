@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bd1nic0olwg6y"]
+
+[ext_resource type="PackedScene" uid="uid://dc66koicpcy6r" path="res://Grid_Gameplay/Grid_Unit.tscn" id="1_gmcjs"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0xsjh"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.0569233, 0.117407, 0.255298, 1)
+offset_right = 1157.0
+offset_bottom = 659.0
+texture = SubResource("PlaceholderTexture2D_0xsjh")
+
+[node name="Grid_Unit" parent="." instance=ExtResource("1_gmcjs")]
+position = Vector2(80, 80)

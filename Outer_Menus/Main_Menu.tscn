@@ -5,7 +5,7 @@
 [ext_resource type="StyleBox" uid="uid://du2m0h02i01eq" path="res://Theme/Menu_Bg.tres" id="2_qn6ol"]
 [ext_resource type="Script" path="res://Outer_Menus/Change_Scene_Button.cs" id="3_d5v7d"]
 [ext_resource type="Script" path="res://Outer_Menus/Add_State_Button.cs" id="4_0rktc"]
-[ext_resource type="Resource" uid="uid://bh0su4pebwhj4" path="res://Architecture/State_Stack/State_Playing_3d.tres" id="5_b4kwt"]
+[ext_resource type="Resource" uid="uid://b2lqvot7kl87m" path="res://Architecture/State_Stack/State_Playing_Grid.tres" id="6_15hhn"]
 [ext_resource type="Script" path="res://Outer_Menus/Quit_Button.cs" id="7_acxw4"]
 
 [node name="Main_Menu" type="PanelContainer"]
@@ -51,7 +51,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Play"
 script = ExtResource("3_d5v7d")
-destination_Scene_Path = "res://3d_Gameplay/3d_Movement_Scene.tscn"
+destination_Scene_Path = "res://Grid_Test_Scene.tscn"
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/Play_Button"]
 visible = false
@@ -59,7 +59,7 @@ layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("4_0rktc")
-state = ExtResource("5_b4kwt")
+state = ExtResource("6_15hhn")
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

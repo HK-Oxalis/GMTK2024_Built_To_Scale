@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://b2lqvot7kl87m"]
+
+[ext_resource type="Script" path="res://Architecture/State_Stack/State.cs" id="1_kwmje"]
+
+[resource]
+script = ExtResource("1_kwmje")

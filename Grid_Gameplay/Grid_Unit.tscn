@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dc66koicpcy6r"]
+
+[ext_resource type="Script" path="res://Grid_Gameplay/GridUnit.cs" id="1_4h80h"]
+[ext_resource type="Resource" uid="uid://b4embxmr3mbkn" path="res://Grid_Gameplay/Grid.tres" id="2_qdp3g"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_h0412"]
+size = Vector2(80, 80)
+
+[node name="Grid_Unit" type="Path2D" node_paths=PackedStringArray("path_Follow")]
+script = ExtResource("1_4h80h")
+grid = ExtResource("2_qdp3g")
+path_Follow = NodePath("PathFollow2D")
+animation_Speed = 200.0
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+rotates = false
+loop = false
+
+[node name="Sprite" type="Sprite2D" parent="PathFollow2D"]
+modulate = Color(0.654004, 0.368232, 0.230802, 1)
+texture = SubResource("PlaceholderTexture2D_h0412")
