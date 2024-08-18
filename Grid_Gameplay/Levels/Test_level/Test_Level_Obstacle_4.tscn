@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=4 uid="uid://ddwws2jis8tqv"]
+
+[ext_resource type="PackedScene" uid="uid://emirefg1b014" path="res://Grid_Gameplay/Grid_Unit_Composite.tscn" id="1_lgtt5"]
+[ext_resource type="Texture2D" uid="uid://ds7oqb3k41qbi" path="res://Images/Arrow.png" id="2_dr1lw"]
+
+[node name="Obstacle_Unit" node_paths=PackedStringArray("sprites") instance=ExtResource("1_lgtt5")]
+sprites = []
+
+[node name="TileMapLayer" parent="PathFollow2D" index="0"]
+tile_map_data = PackedByteArray("AAAAAPn/AAAAAAAAAAAAAPr/AAAAAAAAAAAAAPv/AAAAAAAAAAAAAPz/AAAAAAAAAAAAAP3/AAAAAAAAAAAAAP7/AAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAD//wcAAAAAAAAAAAD+/wcAAAAAAAAAAAD9/wgAAAAAAAAAAAD8/wgAAAAAAAAAAAD7/wkAAAAAAAAAAAD7/wgAAAAAAAAAAAD7/wcAAAAAAAAAAAD7/wYAAAAAAAAAAAD7/wUAAAAAAAAAAAD8/wUAAAAAAAAAAAD9/wUAAAAAAAAAAAD+/wUAAAAAAAAAAAD+/wQAAAAAAAAAAAD///z/AAAAAAAAAAD///3/AAAAAAAAAAD///7/AAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAD//wYAAAAAAAAAAAD+/wYAAAAAAAAAAAD9/wYAAAAAAAAAAAD8/wYAAAAAAAAAAAD8/wcAAAAAAAAAAAD9/wcAAAAAAAAAAAA=")
+
+[node name="Sprite2" type="Sprite2D" parent="PathFollow2D" index="2"]
+modulate = Color(0.654004, 0.368232, 0.230802, 1)
+position = Vector2(80, 480)
+texture = ExtResource("2_dr1lw")
+
+[node name="Sprite3" type="Sprite2D" parent="PathFollow2D" index="3"]
+modulate = Color(0.654004, 0.368232, 0.230802, 1)
+position = Vector2(-280, 600)
+texture = ExtResource("2_dr1lw")
+
+[node name="Sprite4" type="Sprite2D" parent="PathFollow2D" index="4"]
+modulate = Color(0.654004, 0.368232, 0.230802, 1)
+position = Vector2(80, -480)
+texture = ExtResource("2_dr1lw")

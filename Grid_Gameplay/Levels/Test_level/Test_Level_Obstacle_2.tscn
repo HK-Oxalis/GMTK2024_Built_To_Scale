@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=4 uid="uid://cwf6m6nwl07w6"]
+
+[ext_resource type="PackedScene" uid="uid://emirefg1b014" path="res://Grid_Gameplay/Grid_Unit_Composite.tscn" id="1_ddy7l"]
+[ext_resource type="Texture2D" uid="uid://ds7oqb3k41qbi" path="res://Images/Arrow.png" id="2_oyi87"]
+
+[node name="Obstacle_Unit" node_paths=PackedStringArray("sprites") instance=ExtResource("1_ddy7l")]
+sprites = []
+
+[node name="TileMapLayer" parent="PathFollow2D" index="0"]
+tile_map_data = PackedByteArray("AAD///3/AAAAAAAAAAD///7/AAAAAAAAAAD/////AAAAAAAAAAD///z/AAAAAAAAAAD///v/AAAAAAAAAAD//wAAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAAAAP3/AAAAAAAAAAAAAP7/AAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAABAP//AAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAAAAAAAAAAAAAA=")
+
+[node name="Sprite" parent="PathFollow2D" index="1"]
+position = Vector2(0, -280)
+
+[node name="Sprite2" type="Sprite2D" parent="PathFollow2D" index="2"]
+modulate = Color(0.654004, 0.368232, 0.230802, 1)
+position = Vector2(160, 40)
+texture = ExtResource("2_oyi87")
+
+[node name="Sprite3" type="Sprite2D" parent="PathFollow2D" index="3"]
+modulate = Color(0.654004, 0.368232, 0.230802, 1)
+position = Vector2(0, 320)
+texture = ExtResource("2_oyi87")

@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://emirefg1b014"]
+
+[ext_resource type="PackedScene" uid="uid://dc66koicpcy6r" path="res://Grid_Gameplay/grid_unit.tscn" id="1_20mr4"]
+[ext_resource type="Script" path="res://Grid_Gameplay/Composite_GridUnit.cs" id="2_2ky5b"]
+[ext_resource type="Texture2D" uid="uid://ds7oqb3k41qbi" path="res://Images/Arrow.png" id="3_etu0g"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wopnl"]
+size = Vector2(80, 80)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rc1fk"]
+texture = SubResource("PlaceholderTexture2D_wopnl")
+texture_region_size = Vector2i(80, 80)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ijoib"]
+tile_size = Vector2i(80, 80)
+sources/0 = SubResource("TileSetAtlasSource_rc1fk")
+
+[node name="Obstacle_Unit" node_paths=PackedStringArray("tile_Map", "sprites") instance=ExtResource("1_20mr4")]
+script = ExtResource("2_2ky5b")
+tile_Map = NodePath("PathFollow2D/TileMapLayer")
+sprites = []
+directions_Input = Array[int]([1])
+animation_Speed = 300.0
+move_Range = 1
+
+[node name="TileMapLayer" type="TileMapLayer" parent="PathFollow2D" index="0"]
+position = Vector2(40, 40)
+tile_set = SubResource("TileSet_ijoib")
+collision_enabled = false
+
+[node name="Sprite" parent="PathFollow2D" index="1"]
+texture = ExtResource("3_etu0g")

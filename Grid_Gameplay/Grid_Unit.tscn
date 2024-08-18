@@ -6,10 +6,11 @@
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_h0412"]
 size = Vector2(80, 80)
 
-[node name="Grid_Unit" type="Path2D" node_paths=PackedStringArray("path_Follow")]
+[node name="Grid_Unit" type="Path2D" node_paths=PackedStringArray("path_Follow", "sprite")]
 script = ExtResource("1_4h80h")
 grid = ExtResource("2_qdp3g")
 path_Follow = NodePath("PathFollow2D")
+sprite = NodePath("PathFollow2D/Sprite")
 animation_Speed = 200.0
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]

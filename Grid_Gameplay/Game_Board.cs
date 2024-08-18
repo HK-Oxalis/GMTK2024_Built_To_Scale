@@ -13,27 +13,38 @@ public partial class Game_Board : Node2D
     [Export] Texture path_Mark_Texture;
     List<Sprite2D> path_Mark_Sprites = new List<Sprite2D>();
 
-    [Export] GridUnit player;
+    GridUnit player;
     [Export] Grid_Cursor cursor;
 
+    public int turn_Count { get; private set; } = 0;
+
     private GridUnit[] grid_Units;
+    private List<GridUnit> obstacle_Units = new List<GridUnit>();
     private int finished_Units = 0;
     List<Vector2> player_Path_Cells = new List<Vector2>();
 
     public override void _Ready()
     {
+        player = (GridUnit)this.FindChild("Player");
+        GD.Print(player);
+
         cursor.Connect(Grid_Cursor.SignalName.CursorMoved, new Callable(this, MethodName.On_Cursor_Moved));
         cursor.Connect(Grid_Cursor.SignalName.CellInteracted, new Callable(this, MethodName.On_Cell_Interact));
 
         List<GridUnit> units = new List<GridUnit>();
         foreach(Node child in this.GetChildren()){
-            if(child.GetType() == typeof(GridUnit)){
+            if(child.GetType() == typeof(GridUnit) || child.GetType().IsSubclassOf(typeof(GridUnit))){
                 units.Add((GridUnit)child);
                 child.Connect(GridUnit.SignalName.MoveFinished, new Callable(this, MethodName.On_Unit_Finished_Move));
             }
         }
         grid_Units = units.ToArray();
-        
+
+
+        obstacle_Units.AddRange(grid_Units);
+        obstacle_Units.Remove(player);
+
+
         player_Path_Cells.Add(grid.Calculate_Grid_Position(player.Position));
 
 
@@ -42,14 +53,10 @@ public partial class Game_Board : Node2D
     public void On_Cursor_Moved(Vector2 new_Cell){
         //GD.Print("Cursor position is: " + new_Cell);
 
-        Vector2 current_Cell = player_Path_Cells.Last();
-        bool is_Orthogonal = (current_Cell.X == new_Cell.X) || (current_Cell.Y == new_Cell.Y);
-        bool is_Adjacent = (Math.Abs(current_Cell.X - new_Cell.X) <= 1) && (Math.Abs(current_Cell.Y - new_Cell.Y) <= 1);
 
-        bool valid_Cell = player.moved_Cells < player.move_Range && is_Orthogonal && is_Adjacent;
         
         //If the cell isn't a previous cell or within movement range and orthogonal, return
-        if(!(valid_Cell || player_Path_Cells.Contains(new_Cell))){ return;}
+        if(!Is_Valid_Cell(new_Cell)){ return;}
         
         //If the cell is already on the path, remove all cells after it on the path
         if(player_Path_Cells.Contains(new_Cell)){
@@ -67,6 +74,38 @@ public partial class Game_Board : Node2D
         cursor.cell = new_Cell;
     }
 
+    private bool Is_Valid_Cell(Vector2 new_Cell){
+
+        Vector2 current_Cell = player_Path_Cells.Last();
+        
+        bool is_Orthogonal = (current_Cell.X == new_Cell.X) || (current_Cell.Y == new_Cell.Y);
+        bool is_Adjacent = (Math.Abs(current_Cell.X - new_Cell.X) <= 1) && (Math.Abs(current_Cell.Y - new_Cell.Y) <= 1);
+
+        //Is the movement to an orthogonally adjacent cell within the move range
+        bool valid_Movement = player.moved_Cells < player.move_Range && is_Orthogonal && is_Adjacent;
+
+        //If it's a valid movement or it's a previous movement
+        bool valid_Path = valid_Movement || player_Path_Cells.Contains(new_Cell);
+        //If the cell isn't occupied
+        GridUnit cell_Occupant = Is_Cell_Occupied(new_Cell);
+        bool valid_Cell = (cell_Occupant == null) || cell_Occupant == player;
+
+        //Only if these are both true
+        return valid_Path && valid_Cell;
+    }
+
+    public GridUnit Is_Cell_Occupied(Vector2 cell){
+        foreach (GridUnit unit in grid_Units) {
+            foreach(Vector2 unit_Cell in unit.cell){
+                if(unit_Cell.IsEqualApprox(cell)) {
+                    return unit;}
+
+            }
+           
+        }
+        return null;
+    }
+
     public void On_Cell_Interact(Vector2 cell){
 
         //If a valid cell has been selected, move the player to it
@@ -77,18 +116,11 @@ public partial class Game_Board : Node2D
     }
 
     private void Begin_Movement_Phase(){
-        Vector2 destination_Cell = player_Path_Cells.Last();
+         
+         Composite_GridUnit obstacle = (Composite_GridUnit)obstacle_Units[0];
+            
+        obstacle.create_Curve(new List<Vector2>{obstacle.Get_Next_Position(turn_Count)});
 
-        player.create_Curve(player_Path_Cells);
-        player_Path_Cells.Clear();
-
-        player_Path_Cells.Add(destination_Cell);  
-
-        //Remove records of old path
-        foreach(Sprite2D sprite in path_Mark_Sprites){
-            sprite.QueueFree();
-        }
-        path_Mark_Sprites.Clear();
 
         Game_Controller.Instance.Change_State(movement_Phase_State);
     }
@@ -130,10 +162,41 @@ public partial class Game_Board : Node2D
 
     private void On_Unit_Finished_Move(){
         finished_Units ++;
+        
+        if(finished_Units <= obstacle_Units.Count){
+            Composite_GridUnit last_Obstacle = (Composite_GridUnit)obstacle_Units[finished_Units - 1];  
+            last_Obstacle.Update_Collision(turn_Count);
+        }
+        
+        
+
+        if(finished_Units < obstacle_Units.Count){
+           Composite_GridUnit obstacle = (Composite_GridUnit)obstacle_Units[finished_Units];  
+            obstacle.create_Curve(new List<Vector2>{obstacle.Get_Next_Position(turn_Count)});
+
+            
+        }
+        else if (finished_Units >= obstacle_Units.Count){
+            Vector2 destination_Cell = player_Path_Cells.Last();
+
+            player.create_Curve(player_Path_Cells);
+            player_Path_Cells.Clear();
+
+            player_Path_Cells.Add(destination_Cell);
+        }
 
         if(finished_Units >= grid_Units.Length){
+            //Remove records of old path
+            foreach(Sprite2D sprite in path_Mark_Sprites){
+                sprite.QueueFree();
+            }
+            path_Mark_Sprites.Clear();
+
             finished_Units = 0;
+
+            turn_Count ++;
             Game_Controller.Instance.Change_State(player_Phase_State);
+
         }  
     }
 
