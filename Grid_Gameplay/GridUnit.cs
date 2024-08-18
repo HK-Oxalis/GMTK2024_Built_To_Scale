@@ -38,11 +38,11 @@ public partial class GridUnit : Path2D
             Position = grid.Calculate_World_Position(cell);
             this.Curve.ClearPoints();
             path_Follow.Progress = 0;
+            path_Follow.Position = Vector2.Zero;
 
             EmitSignal(SignalName.MoveFinished);
         }
         }
-        GD.Print(grid.Calculate_Grid_Position(this.Position));
     }
 
     public void create_Curve(List<Vector2> path_Points){
