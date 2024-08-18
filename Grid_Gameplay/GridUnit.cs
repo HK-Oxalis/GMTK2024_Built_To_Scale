@@ -35,22 +35,24 @@ public partial class GridUnit : Path2D
         if (this.is_Moving){
             path_Follow.Progress += this.animation_Speed * (float)delta;
 
-        if(path_Follow.ProgressRatio >= 1){
-            this.is_Moving = false;
+            if(path_Follow.ProgressRatio >= 1){
+                this.is_Moving = false;
 
             
-            Position = grid.Calculate_World_Position(cell[0]);
-            this.Curve.ClearPoints();
-            path_Follow.Progress = 0;
-            path_Follow.Position = Vector2.Zero;
+                Position = grid.Calculate_World_Position(cell[0]);
+                this.Curve.ClearPoints();
+                path_Follow.Progress = 0;
+                path_Follow.Position = Vector2.Zero;
 
-            EmitSignal(SignalName.MoveFinished);
+                EmitSignal(SignalName.MoveFinished);
         }
         }
     }
 
     public void create_Curve(List<Vector2> path_Points){
         if(path_Points.Count == 0) return;
+
+        
 
         this.Curve.AddPoint(Vector2.Zero);
 

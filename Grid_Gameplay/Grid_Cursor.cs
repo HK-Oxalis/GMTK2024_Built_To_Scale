@@ -19,12 +19,14 @@ public partial class Grid_Cursor : Node2D
         timer = (Timer)this.FindChild("Timer");
         timer.WaitTime = ui_Cooldown;
         
+        cell = grid.Calculate_Grid_Position(this.Position);
     }
 
 
 
     public override void _Input(InputEvent @event)
     {
+
         if(Game_Controller.Instance.current_state != player_Phase_State) return;
         //Check the cooldown on repeated events 
         //(if the event was there last time and the timer is not finished)
@@ -46,16 +48,15 @@ public partial class Grid_Cursor : Node2D
 
     
     public void Set_Cell(Vector2 new_Cell){
-        new_Cell = grid.Grid_Clamp(new_Cell);
+        //new_Cell = grid.Grid_Clamp(new_Cell);
+
 
         if(new_Cell.IsEqualApprox(this.cell)){
             return;
         }
 
         _cell = new_Cell;
-
         this.Position = grid.Calculate_World_Position(new_Cell);
-
         timer.Start();
         
     }

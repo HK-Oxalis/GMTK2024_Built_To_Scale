@@ -4,4 +4,5 @@
 
 [node name="Player" instance=ExtResource("1_my43r")]
 
-[node name="Camera2D" type="Camera2D" parent="." index="1"]
+[node name="Camera2D" type="Camera2D" parent="PathFollow2D" index="1"]
+zoom = Vector2(0.75, 0.75)

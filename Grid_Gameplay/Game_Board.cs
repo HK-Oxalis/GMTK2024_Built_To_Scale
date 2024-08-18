@@ -13,20 +13,19 @@ public partial class Game_Board : Node2D
     [Export] Texture path_Mark_Texture;
     List<Sprite2D> path_Mark_Sprites = new List<Sprite2D>();
 
-    GridUnit player;
+    [Export]GridUnit player;
     [Export] Grid_Cursor cursor;
 
     public int turn_Count { get; private set; } = 0;
 
     private GridUnit[] grid_Units;
     private List<GridUnit> obstacle_Units = new List<GridUnit>();
-    private int finished_Units = 0;
+    private List<Composite_GridUnit> movement_Queue = new List<Composite_GridUnit>();
+    private bool is_Player_Moving = false;
     List<Vector2> player_Path_Cells = new List<Vector2>();
 
     public override void _Ready()
     {
-        player = (GridUnit)this.FindChild("Player");
-        GD.Print(player);
 
         cursor.Connect(Grid_Cursor.SignalName.CursorMoved, new Callable(this, MethodName.On_Cursor_Moved));
         cursor.Connect(Grid_Cursor.SignalName.CellInteracted, new Callable(this, MethodName.On_Cell_Interact));
@@ -84,6 +83,7 @@ public partial class Game_Board : Node2D
         //Is the movement to an orthogonally adjacent cell within the move range
         bool valid_Movement = player.moved_Cells < player.move_Range && is_Orthogonal && is_Adjacent;
 
+
         //If it's a valid movement or it's a previous movement
         bool valid_Path = valid_Movement || player_Path_Cells.Contains(new_Cell);
         //If the cell isn't occupied
@@ -116,12 +116,21 @@ public partial class Game_Board : Node2D
     }
 
     private void Begin_Movement_Phase(){
+        
+        foreach (GridUnit unit in obstacle_Units){
+            Composite_GridUnit obstacle = (Composite_GridUnit)unit;
+            bool should_Move = obstacle.Get_Next_Position(turn_Count).Z == 1;
+
+            if(should_Move){ movement_Queue.Add(obstacle);}
+
+        }
+
+        if(movement_Queue.Count > 0){
+            Vector2 next_Position = new Vector2(movement_Queue[0].Get_Next_Position(turn_Count).X, movement_Queue[0].Get_Next_Position(turn_Count).Y);
+            movement_Queue[0].create_Curve(new List<Vector2>{next_Position});
+            }
+        else Move_Player();
          
-         Composite_GridUnit obstacle = (Composite_GridUnit)obstacle_Units[0];
-            
-        obstacle.create_Curve(new List<Vector2>{obstacle.Get_Next_Position(turn_Count)});
-
-
         Game_Controller.Instance.Change_State(movement_Phase_State);
     }
 
@@ -161,43 +170,61 @@ public partial class Game_Board : Node2D
     }
 
     private void On_Unit_Finished_Move(){
-        finished_Units ++;
-        
-        if(finished_Units <= obstacle_Units.Count){
-            Composite_GridUnit last_Obstacle = (Composite_GridUnit)obstacle_Units[finished_Units - 1];  
-            last_Obstacle.Update_Collision(turn_Count);
-        }
-        
-        
 
-        if(finished_Units < obstacle_Units.Count){
-           Composite_GridUnit obstacle = (Composite_GridUnit)obstacle_Units[finished_Units];  
-            obstacle.create_Curve(new List<Vector2>{obstacle.Get_Next_Position(turn_Count)});
-
+        if(is_Player_Moving){
+            is_Player_Moving = false;
             
+            //If it was the player just finishing movement, the turn is over
+
+            GD.Print("Player moved, turn over");
+            foreach(Sprite2D sprite in path_Mark_Sprites){
+                sprite.QueueFree();
+            }
+            path_Mark_Sprites.Clear();
+
+            //This should be empty, but just in case
+            movement_Queue.Clear();
+
+            turn_Count ++;
+            Game_Controller.Instance.Change_State(player_Phase_State);
+
         }
-        else if (finished_Units >= obstacle_Units.Count){
+
+        //If theres at least something left in the movement queue, update its collisions
+        if(movement_Queue.Count >= 1){
+            Composite_GridUnit finished_Obstacle = movement_Queue[0];
+            finished_Obstacle.Update_Collision(turn_Count);
+            movement_Queue.Remove(finished_Obstacle);
+        }
+
+        //If the movement queue is now empty
+        if(movement_Queue.Count <= 0 && !is_Player_Moving){
+
+            //Move player
+            Move_Player();
+
+        }
+        //There's still stuff ledt in the queue, move it
+        else{ 
+            Composite_GridUnit obstacle = movement_Queue[0];
+            Vector2 next_Position =   new Vector2(obstacle.Get_Next_Position(turn_Count).X, obstacle.Get_Next_Position(turn_Count).Y);
+            obstacle.create_Curve(new List<Vector2>{next_Position});
+        }
+
+        
+         
+    }
+
+    private void Move_Player(){
+        GD.Print("Moving player");
+
+            is_Player_Moving = true;
             Vector2 destination_Cell = player_Path_Cells.Last();
 
             player.create_Curve(player_Path_Cells);
             player_Path_Cells.Clear();
 
             player_Path_Cells.Add(destination_Cell);
-        }
-
-        if(finished_Units >= grid_Units.Length){
-            //Remove records of old path
-            foreach(Sprite2D sprite in path_Mark_Sprites){
-                sprite.QueueFree();
-            }
-            path_Mark_Sprites.Clear();
-
-            finished_Units = 0;
-
-            turn_Count ++;
-            Game_Controller.Instance.Change_State(player_Phase_State);
-
-        }  
     }
 
     

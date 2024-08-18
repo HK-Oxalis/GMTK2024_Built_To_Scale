@@ -4,7 +4,7 @@ using System.Reflection.Metadata;
 
 public partial class Grid : Resource
 {
-    [Export] Vector2 grid_Size = new Vector2(20, 20);
+    //[Export] Vector2 grid_Size = new Vector2(20, 20);
     [Export] Vector2 cell_Size = new Vector2(80, 80);
 
     
@@ -16,6 +16,8 @@ public partial class Grid : Resource
     public Vector2 Calculate_Grid_Position(Vector2 world_Position){
         return (world_Position/cell_Size).Floor(); 
     }
+
+    /*
 
     public bool Is_Within_Bounds(Vector2 cell_Coords){
         bool is_Horizontal_Bounds = cell_Coords.X < grid_Size.X && cell_Coords.X >= 0;
@@ -29,9 +31,11 @@ public partial class Grid : Resource
         clamped_Position.Y = Math.Clamp(grid_Position.Y, 0, grid_Size.Y - 1);
         return clamped_Position;
     }
+    
 
     public int Grid_Index(Vector2 cell){
         return (int)(cell.X + grid_Size.X * cell_Size.Y);
     }
+    */
     
 }

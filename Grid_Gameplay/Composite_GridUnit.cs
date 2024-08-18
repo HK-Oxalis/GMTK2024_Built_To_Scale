@@ -71,15 +71,16 @@ public partial class Composite_GridUnit : GridUnit
 
     }
 
-    public Vector2 Get_Next_Position(int turn){
+    public Vector3 Get_Next_Position(int turn){
         Vector2 current_Position = base.grid.Calculate_Grid_Position(this.Position);
-        if(turn >= directions.Length) return current_Position;
+        if(turn >= directions.Length) return new Vector3(current_Position.X, current_Position.Y, 0);
 
-        return current_Position + directions[turn];
+        Vector2 next_Position = current_Position + directions[turn];
+        return new Vector3(next_Position.X, next_Position.Y, 1);
     }
 
     private void Update_Arrows(int turn){
-        if(turn + 1 >= directions.Length) return;
+        if(turn + 2 >= directions.Length) return;
         Direction direction = directions_Input[turn + 1];
 
         foreach(Sprite2D sprite in this.sprites){
