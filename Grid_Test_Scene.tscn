@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bd1nic0olwg6y"]
+[gd_scene load_steps=7 format=3 uid="uid://bd1nic0olwg6y"]
 
 [ext_resource type="PackedScene" uid="uid://dc66koicpcy6r" path="res://Grid_Gameplay/Grid_Unit.tscn" id="1_gmcjs"]
 [ext_resource type="PackedScene" uid="uid://b3wpegsxyi4v1" path="res://Grid_Gameplay/Grid_Cursor.tscn" id="2_agam6"]
+[ext_resource type="Script" path="res://Game_Board.cs" id="3_ki7g4"]
+[ext_resource type="Resource" uid="uid://b4embxmr3mbkn" path="res://Grid_Gameplay/Grid.tres" id="4_uj5jr"]
+[ext_resource type="Texture2D" uid="uid://3jpbv756tty4" path="res://Images/Circle.png" id="5_qgrl2"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0xsjh"]
 
@@ -14,7 +17,15 @@ offset_bottom = 659.0
 texture = SubResource("PlaceholderTexture2D_0xsjh")
 
 [node name="Grid_Unit" parent="." instance=ExtResource("1_gmcjs")]
-position = Vector2(80, 80)
+position = Vector2(120, 120)
+move_Range = 10
 
 [node name="Cursor" parent="." instance=ExtResource("2_agam6")]
-position = Vector2(400, 240)
+position = Vector2(120, 120)
+
+[node name="Game_Board" type="Node2D" parent="." node_paths=PackedStringArray("player", "cursor")]
+script = ExtResource("3_ki7g4")
+grid = ExtResource("4_uj5jr")
+path_Mark_Texture = ExtResource("5_qgrl2")
+player = NodePath("../Grid_Unit")
+cursor = NodePath("../Cursor")

@@ -24,7 +24,6 @@ public partial class Grid_Cursor : Node2D
 
     public override void _Input(InputEvent @event)
     {
-        GD.Print("Running input check");
         //Check the cooldown on repeated events 
         //(if the event was there last time and the timer is not finished)
         
@@ -32,23 +31,19 @@ public partial class Grid_Cursor : Node2D
             return;
         }
         if(@event is InputEventMouseMotion motion_Event){
-            GD.Print("Mouse Movement Detected");
-            GD.Print(grid.Calculate_Grid_Position(motion_Event.Position));
-            cell = grid.Calculate_Grid_Position(motion_Event.Position);
-            GD.Print("Mouse movement resolved");
+            EmitSignal(SignalName.CursorMoved, grid.Calculate_Grid_Position(motion_Event.Position));
         }
         if(@event.IsActionPressed("Accept") || @event.IsActionPressed("ui_accept")){
             EmitSignal(SignalName.CellInteracted, cell);
         }
-        if(@event.IsActionPressed("ui_up")) this.cell += Vector2.Up;
-        if(@event.IsActionPressed("ui_right")) this.cell += Vector2.Right;
-        if(@event.IsActionPressed("ui_down")) this.cell += Vector2.Down;
-        if(@event.IsActionPressed("ui_left")) this.cell += Vector2.Left;
+        if(@event.IsActionPressed("ui_up")) EmitSignal(SignalName.CursorMoved, this.cell + Vector2.Up);
+        if(@event.IsActionPressed("ui_right")) EmitSignal(SignalName.CursorMoved, this.cell + Vector2.Right);
+        if(@event.IsActionPressed("ui_down")) EmitSignal(SignalName.CursorMoved, this.cell + Vector2.Down);
+        if(@event.IsActionPressed("ui_left")) EmitSignal(SignalName.CursorMoved, this.cell + Vector2.Left);
     }
 
     
     public void Set_Cell(Vector2 new_Cell){
-        GD.Print("Custom setter starts");
         new_Cell = grid.Grid_Clamp(new_Cell);
 
         if(new_Cell.IsEqualApprox(this.cell)){
@@ -58,6 +53,7 @@ public partial class Grid_Cursor : Node2D
         _cell = new_Cell;
 
         this.Position = grid.Calculate_World_Position(new_Cell);
+
         timer.Start();
         
     }
